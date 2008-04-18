@@ -1,0 +1,88 @@
+# ============================================================================
+# OpenPanel MySQL.module for controlling a MySQL database.
+# Copyright (C) 2008 PanelSix V.O.F.
+# ============================================================================
+module MySQL					< uuid 5e9dac24-e59c-4074-b316-272d94ffccbe
+								< version 1.0
+								< languages en_EN
+								< apitype xml
+								
+
+# ============================================================================
+# CLASSES
+# ============================================================================
+class MySQL:Database			< uuid 190fb83f-8629-4b16-bac1-a691bc2eb079
+								< version 1
+								< indexing manual
+								< uniquein class
+								< shortname mysqldb
+								< title MySQL Database
+								< description MySQL database
+								< icon mysqldb.png
+								
+								< capabilities create delete
+								
+	string id					: Database name
+								< regexp ^[a-zA-Z0-9]+$
+								< example mydatabase
+
+
+# ----------------------------------------------------------------------------
+class MySQL:DBUser				< uuid b0e4b7cd-c122-4100-bab4-9f3c9384c241
+								< version 1
+								< requires MySQL:Database
+								< indexing manual
+								< uniquein class
+								< shortname dbuser
+								< title MySQL User
+								< description MySQL database user
+								
+								< capabilities create update delete
+	
+	string id					: Username
+								< regexp ^[a-zA-Z0-9]+$
+								< example myfavuser
+								< gridwidth 50
+	
+	password password			: Password
+								< crypt extern
+								< gridwidth 20
+								< regexp .*
+	
+	enum permissions			: Permission type
+								< default 0
+								< gridwidth 30
+
+
+# ----------------------------------------------------------------------------
+class MySQL:DBUserhost			< uuid 6a7a0412-39b1-49e1-9530-825ecc3d7fef
+								< version 1
+								< requires MySQL:DBUser
+								< indexing manual
+								< uniquein parent
+								< shortname userhost
+								< title Access Host or IP
+								< description User host/IP match
+								< explanation dbuserhost.html
+								
+								< capabilities create delete
+	
+	string id					: Hostname to match
+								< regexp [:host:]
+								< example localhost
+								< gridwidth 100
+
+
+# ============================================================================
+# ENUMS
+# ============================================================================
+enum permissions
+	read						: Read-only
+	read-write					: Read and write
+	admin						: Administrator
+
+# ============================================================================
+# AUTHD
+# ============================================================================
+authd objects
+	object mysql.pwd			: /etc/openpanel/mysql.pwd

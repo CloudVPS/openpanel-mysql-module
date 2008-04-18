@@ -1,0 +1,26 @@
+#!/bin/sh
+# --------------------------------------------------------------------------
+# OpenPanel - The Open Source Control Panel
+# Copyright (c) 2006-2007 PanelSix
+#
+# This software and its source code are subject to version 2 of the
+# GNU General Public License. Please be aware that use of the OpenPanel
+# and PanelSix trademarks and the IconBase.com iconset may be subject
+# to additional restrictions. For more information on these restrictions
+# and for a copy of version 2 of the GNU General Public License, please
+# visit the Legal and Privacy Information section of the OpenPanel
+# website on http:#www.openpanel.com/
+# --------------------------------------------------------------------------
+# pidfile permissions are sucky on many distributions, just assume
+# everything is cool, for now
+
+# TODO: grab login from authd, then ping mysql
+
+RVAL=1
+( /usr/bin/mysqladmin -uUNKNOWN_MYSQL_USER ping 2>&1 && \
+    echo "Access denied for user" ) | \
+    grep -q "Access denied for user" && RVAL=0
+
+echo "quit" >&3
+exit $RVAL
+

@@ -1,0 +1,16 @@
+424
+<openpanel.module.mysql>
+
+	<string id="OpenCORE:Command">crypt</string>
+	<dict id="OpenCORE:Session">
+		<string id="sessionid">152f9481-9903-4ffe-a580-09c29e0f0133</string>
+		<string id="classid">MySQL:DBUser</string>
+	</dict>
+	<dict id="User">
+		<string id="id">pi@madscience.nl</string>
+	</dict>
+
+	<!-- Data tree started from the top required object -->
+	<string id="password">hello</string>		
+	
+</openpanel.module.mysql>

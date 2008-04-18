@@ -1,0 +1,29 @@
+839
+<openpanel.module.mysql>
+
+	<string id="OpenCORE:Command">delete</string>
+	<dict id="OpenCORE:Session">
+		<string id="sessionid">152f9481-9903-4ffe-a580-09c29e0f0133</string>
+		<string id="classid">MySQL:Database</string>
+		<string id="objectid">dannydb2</string>
+	</dict>
+	<dict id="User">
+		<string id="id">pi@madscience.nl</string>
+	</dict>
+	<dict id="MySQL:Database" type="object">
+		<string id="id">dannydb2</string>
+	</dict>
+	<dict id="MySQL:DBUser" type="object">
+		<string id="id">user1</string>
+		<string id="password">*6B4F89A54E2D27ECD7E8DA05B4AB8FD9D1D8B119</string>
+		<integer id="permissions">1</integer>
+		<string id="hostname">localhost</string>
+		<dict id="MySQL:DBUserhost" type="object">
+			<dict id="andanother.org">
+				<string id="id">andanother.org</string>
+			</dict>
+		</dict>
+	</dict>
+
+	
+</openpanel.module.mysql>

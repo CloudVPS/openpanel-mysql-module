@@ -1,0 +1,15 @@
+<xml.schema>
+
+	<xml.class name="openpanel.module.domain">
+		<xml.type>dict</xml.type>
+		<xml.proplist>
+			<xml.member class="config"	id="config"/>
+		</xml.proplist>
+	</xml.class>
+
+	<xml.class name="config">
+		<xml.type>dict</xml.type>
+	</xml.class>
+
+	
+</xml.schema>
