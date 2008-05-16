@@ -105,7 +105,7 @@ bool mysqlControl::addUser (const string &dbname, const string &username,
 	P << perms;
 	
 	string qry = "INSERT INTO mysql.user (Host,User,Password) "
-				 "VALUES ('%%',%Q,%Q)"
+				 "VALUES ('localhost',%Q,%Q)"
 				 %format (username, passwd);
 	
 	if (! sock.query (qry)) return false;
@@ -116,7 +116,7 @@ bool mysqlControl::addUser (const string &dbname, const string &username,
 		qry += ",";
 		qry += p.id();
 	}
-	qry += ") VALUES ('localhost',%Q,%Q" %format (dbname, username);
+	qry += ") VALUES ('%%',%Q,%Q" %format (dbname, username);
 	foreach (p, P)
 	{
 		qry += ",%Q" %format (p);
