@@ -97,7 +97,7 @@ bool mysqlControl::addUser (const string &dbname, const string &username,
 	
 	string qry = "INSERT INTO mysql.user (Host,User,Password) "
 				 "VALUES ('%%',%Q,%Q)"
-				 %format (username passwd);
+				 %format (username, passwd);
 	
 	if (! sock.query (qry)) return false;
 	
