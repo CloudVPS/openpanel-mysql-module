@@ -164,7 +164,7 @@ bool mysqlControl::updateUserPassword (const string &username,
 									   const string &cryptedpasswd)
 {
 	string qry = "UPDATE mysql.user SET Password=%Q WHERE "
-				 "USER=%Q" %format (cryptedpassword, username);
+				 "USER=%Q" %format (cryptedpasswd, username);
 	
 	if (! sock.query (qry)) return false;
 	sock.query ("FLUSH PRIVILEGES");
