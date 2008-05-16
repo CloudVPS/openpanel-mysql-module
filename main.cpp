@@ -20,7 +20,6 @@
 
 
 using namespace moderr;
-using namespace clmysql;
 
 APPOBJECT(mysqlmodule);
 
@@ -55,7 +54,7 @@ int mysqlmodule::main (void)
 		sqlpwfile = sqlpwfile.stripchar ('\n');    
     
     	// Try to setup connection
-    	clmysql = new clientmysql ("localhost", "openpanel", sqlpwfile, 0);
+    	mcontrol = new mysqlControl ("openpanel",sqlpwfile);
    	}
    	catch (exception e)
    	{	
@@ -173,135 +172,123 @@ bool mysqlmodule::writeconfiguration (const value &v)
 		return false;
 	}
 	
+	string command = v["OpenCORE:Command"];
+	
 	caseselector (v["OpenCORE:Session"]["classid"])
 	{
 		// database actions
 		incaseof ("MySQL:Database") : 
-			caseselector (v["OpenCORE:Command"])	
+			caseselector (command)	
 			{
 				incaseof ("create") :
-					// Create a new database
-					if (! clmysql->createdatabase (dbid))
+					if (! mcontrol->createDatabase (dbid))
 					{
-						string error;
-						
-						error.printf ("Error creating database\n");
-						error.printf ("Code: %i\n", clmysql->errorno());
-						error.printf ("Msg: %s\n", clmysql->error().str());
-						
-						// Send error
-						sendresult (err_module, error);
+						sendresult (err_module, "Error on CREATE DATABASE");
 						return false;
 					}
 					break;
 					
 				incaseof ("delete") :
-					// Delete database
-                    clmysql->removedatabase (dbid);
+					mcontrol->dropDatabase (dbid);
 					break;
 					
 				defaultcase:
-					// Invalid command
-					sendresult (err_command, 
-								"MySQL:Database only supports: create, delete");
+					sendresult (err_command, "Invalid command");
 					break;
 			}
 			break;
 
 		// user external hosts
-		incaseof ("MySQL:DBUserhost") : 
-			caseselector (v["OpenCORE:Command"])	
+		incaseof ("MySQL:DBUserhost") :
+		
+			string idHost = v["MySQL:DBUserhost"]["metaid"];
+			string idUser = v["MySQL:DBUser"]["id"];
+		
+			caseselector (command)	
 			{
 				incaseof ("create") :
-					// Add a new external host for this user
-					statstring objid;
-					objid = v["MySQL:DBUserhost"]["metaid"];
-					if (objid == "localhost")
+					if (idHost == "localhost")
 					{	
-					    string error;
-						error.printf ("Do not add localhost - localhost always has access\n");
-						
-						// Send error
-						sendresult (err_module, error);
+						sendresult (err_module, "Localhost permissions "
+									"already assumed by default");
 						return false;
-					    
 					}
-					if (! clmysql->createuser (v["MySQL:DBUser"]["id"], objid,
-								v["MySQL:DBUser"]["password"], dbid,
-                            	v["MySQL:DBUser"]["permissions"])
-					   )
+					
+					if (! mcontrol->addUserHost (idUser, idHost))
 					{
-						string error;
-						error.printf ("Error creating user external host\n");
-						error.printf ("Code: %i\n", clmysql->errorno());
-						error.printf ("Msg: %s\n", clmysql->error().str());
-						
-						// Send error
-						sendresult (err_module, error);
+						sendresult (err_module, "Error adding user host");
 						return false;
-					}					
+					}
 					break;
 					
 				incaseof ("delete") :
-					// Delete an external host for this user
-                    clmysql->removeuser (v["MySQL:DBUser"]["id"],
-					    				 v["MySQL:DBUserhost"]["metaid"],
-					    				 dbid);
+					mcontrol->deleteUserHost (idUser, idHost);
 					break;
 					
 				defaultcase:
-					// Invalid command
-					sendresult (err_command, 
-								"MySQL:DBUserhost only supports: create, delete");
+					sendresult (err_command, "Command not supported");
 					return false;
 			}
 			break;
 		
 		incaseof ("MySQL:DBUser") : 
 		{
-		    caseselector (v["OpenCORE:Command"])	
+			const value &U = v["MySQL:DBUser"];
+			string idUser = U["id"];
+			value perms;
+			
+			if (U.exists ("permissions"))
+			{
+				caseselector (U["permissions"])
+				{
+					incaseof ("admin") :
+						perms = mysqlControl::permsAdmin(); break;
+					
+					incaseof ("read-write") :
+						perms = mysqlControl::permsReadWrite(); break;
+					
+					defaultcase :
+						perms = mysqlControl::permsRead(); break;
+				}
+			}
+			
+		    caseselector (command)	
 			{
 				incaseof ("create") :
-        			if (! clmysql->createuser (v["MySQL:DBUser"]["id"],
-        						"localhost",
-        						v["MySQL:DBUser"]["password"],
-        						dbid,
-                            	v["MySQL:DBUser"]["permissions"])
-        			   )
-        			{
-        				string error;
-        				error.printf ("Error creating user@localhost\n");
-        				error.printf ("Code: %i\n", clmysql->errorno());
-        				error.printf ("Msg: %s\n", clmysql->error().str());
-				
-        				// Send error
-        				sendresult (err_module, error);
-        				return false;
-        			}
+					if (! mcontrol->addUser (dbid, idUser, U["password"], perms))
+					{
+						sendresult (err_module, "Error creating user");
+						return false;
+					}
         			break;
+        			
     			incaseof ("delete") :
-					// Delete an external host for this user
-                    clmysql->removeuser (v["MySQL:DBUser"]["id"],
-					    				 "localhost", dbid);
+    				mcontrol->deleteUser (dbid, idUser);
 					break;
 				
 				defaultcase:
-					// Invalid command
-					sendresult (err_command, 
-								"MySQL:DBUser only supports: create, delete");
-					return false;
+					if (! mcontrol->updateUser (dbid, idUser, perms))
+					{
+						sendresult (err_module, "Error setting permissions");
+						return false;
+					}
+					
+					if (U["password"].sval())
+					{
+						if (! mcontrol->updateUserPassword (idUser, U["password"]))
+						{
+							sendresult (err_module, "Error setting password");
+							return false;
+						}
+					}
+					break;
 			}
 		}
 			
 		defaultcase:
-			sendresult 
-				(
-				err_context, 
-				"Supported classes are: MySQL:(Database, DBUser, DBUserhost)"
-				);
+			sendresult (err_context, "Unknown class");
 			return false;
 	}
-
 
 	return true;
 }
@@ -448,31 +435,6 @@ bool mysqlmodule::checkconfig (value &v)
 	
 	
 	// No errors during validation
-	return true;
-}
-
-
-//  =========================================================================
-/// Recursive user delete
-//  =========================================================================
-bool mysqlmodule::deleteuser (const value &v)
-{
-	//
-	// Remove the DBUserhosts if they are available
-	//
-	if (v["MySQL:DBUser"].exists("MySQL:DBUserhost"))
-	{
-		foreach (h, v["MySQL:DBUser"]["MySQL:DBUserhost"])
-		{
-			//
-			// Delete user with external host `DBUserhost`
-			//
-			clmysql->removeuser (v["MySQL:DBUser"]["id"].sval(),
-							     h["id"].sval(),
-                                 v["MySQL:Database"]["metaid"]);
-		}
-	}
-
 	return true;
 }
 

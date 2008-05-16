@@ -18,7 +18,8 @@
 #include <grace/system.h>
 #include <grace/configdb.h>
 
-#include "clmysql.h"
+#include <mysql.h>
+#include <mysqld_error.h>
 
 typedef configdb<class mysqlmodule> appconfig;
 
@@ -43,22 +44,17 @@ public:
 			 // virtual from moduleapp
 	void	 onsendresult ()
 			 {
-			 	delete clmysql;
+			 	delete mcontrol;
 			 }
 
 	
 private:
 
-			 //	 =============================================
-			 /// Delete user and it's userhosts below
-			 //	 =============================================
-	bool	 deleteuser (const value &);
-	
 protected:
 
 	appconfig		 conf;			///< Modules configuration data
 	value			 networkconf;	///< Zone configuration
-	clientmysql	 	*clmysql;		///< Mysql Client class
+	class mysqlControl	*mcontrol;	///< MySQL controller object.
 
 	
 			 //	 =============================================
@@ -109,6 +105,60 @@ protected:
 			 /// \return true on ok / false on failure
 			 //	=============================================			 
 	bool	 cryptpassword (const value &v);
+};
+
+class mysqlSocket
+{
+public:
+				 mysqlSocket (const string &_user, const string &_pass);
+				~mysqlSocket (void);
+	bool		 query (const string &q);
+
+protected:
+	MYSQL		*msock;
+};
+
+class mysqlControl
+{
+public:
+					 mysqlControl (const string &_user, const string &_pass);
+					~mysqlControl (void);
+
+	static value	*permsRead (void);
+	static value	*permsReadWrite (void);
+	static value	*permsAdmin (void);
+
+	void			 createDatabase (const string &dbname);
+	void			 dropDatabase (const string &dbname);
+	
+	void			 addUser (const string &dbname,
+							  const string &username,
+							  const string &passwd,
+							  const value &perms);
+	
+	void			 deleteUser (const string &dbname,
+								 const string &username);
+							 
+	void			 updateUser (const string &dbname,
+								 const string &username,
+								 const value &perms);
+							 
+	void			 updateUserPassword (const string &username,
+										 const string &cryptedpassword);
+	
+	void			 addUserHost (const string &dbname,
+								  const string &username,
+								  const string &host);
+	
+	void			 deleteUserHost (const string &dbname,
+									 const string &username,
+									 const string &host);
+						 
+protected:
+	string			 user;
+	string			 pass;
+	value			 permlist;
+	mysqlSocket		 sock;
 };
 
 #endif

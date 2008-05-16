@@ -1,6 +1,6 @@
 include makeinclude
 
-OBJ	= main.o clmysql.o version.o
+OBJ	= main.o mysqlcontrol.o version.o
 
 all: module.xml mysqlmodule.exe
 	mkapp mysqlmodule 
