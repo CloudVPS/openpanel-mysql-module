@@ -42,13 +42,7 @@ public:
 
 
 			 // virtual from moduleapp
-	void	 onsendresult ()
-			 {
-			 	delete mcontrol;
-			 }
-
-	
-private:
+	void	 onsendresult ();
 
 protected:
 

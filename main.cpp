@@ -26,6 +26,10 @@ APPOBJECT(mysqlmodule);
 
 #define pwdfile		"mysql.pwd"
 
+void mysqlmodule::onsendresult (void)
+{
+	delete mcontrol;
+}
 
 //  =========================================================================
 /// Main method.
