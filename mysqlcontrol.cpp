@@ -89,12 +89,12 @@ value *mysqlControl::permsAdmin (void)
 
 bool mysqlControl::createDatabase (const string &dbname)
 {
-	return sock.query ("CREATE DATABASE %Q" %format (dbname));
+	return sock.query ("CREATE DATABASE `%S`" %format (dbname));
 }
 
 bool mysqlControl::dropDatabase (const string &dbname)
 {
-	return sock.query ("DROP DATABASE %Q" %format (dbname));
+	return sock.query ("DROP DATABASE `%S`" %format (dbname));
 }
 
 bool mysqlControl::addUser (const string &dbname, const string &username,
