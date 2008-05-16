@@ -218,7 +218,7 @@ bool mysqlmodule::writeconfiguration (const value &v)
 						return false;
 					}
 					
-					if (! mcontrol->addUserHost (idUser, idHost))
+					if (! mcontrol->addUserHost (dbid, idUser, idHost))
 					{
 						sendresult (err_module, "Error adding user host");
 						return false;
@@ -226,7 +226,7 @@ bool mysqlmodule::writeconfiguration (const value &v)
 					break;
 					
 				incaseof ("delete") :
-					mcontrol->deleteUserHost (idUser, idHost);
+					mcontrol->deleteUserHost (dbid, idUser, idHost);
 					break;
 					
 				defaultcase:
