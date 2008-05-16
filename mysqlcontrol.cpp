@@ -118,8 +118,7 @@ bool mysqlControl::addUser (const string &dbname, const string &username,
 	qry += ") VALUES ('localhost',%Q,%Q" %format (dbname, username);
 	foreach (p, P)
 	{
-		qry += ",";
-		qry += "'%Q'" %format (p);
+		qry += ",%Q" %format (p);
 	}
 	qry += ")";
 	
