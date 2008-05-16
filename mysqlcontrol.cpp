@@ -182,7 +182,8 @@ bool mysqlControl::addUserHost (const string &username, const string &host)
 {
 	if (! sock.query ("INSERT INTO mysql.user(Host,User,Password) "
 					  "SELECT %Q,User,Password FROM mysql.user "
-					  "WHERE User=%Q AND Host='localhost'"))
+					  "WHERE User=%Q AND Host='localhost'"
+					  %format (host,username)))
 	{
 		return false;
 	}
