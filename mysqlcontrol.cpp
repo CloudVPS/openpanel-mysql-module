@@ -4,7 +4,6 @@ $exception (mysqlSocketInitException, "Error initializing mysql socket");
 $exception (mysqlConnectException, "Error connecting to mysqld");
 
 #include "mysqlmodule.h"
-#include <syslog.h>
 
 mysqlSocket::mysqlSocket (const string &user, const string &pass)
 {
@@ -16,8 +15,6 @@ mysqlSocket::mysqlSocket (const string &user, const string &pass)
 	{
 		throw (mysqlConnectException());
 	}
-	
-	openlog ("mysql.module", LOG_PID, LOG_DAEMON);
 }
 	
 mysqlSocket::~mysqlSocket (void)
@@ -29,11 +26,8 @@ bool mysqlSocket::query (const string &q)
 {
 	if (mysql_query (msock, q.str()))
 	{
-		syslog (LOG_ERR, "Query error on '%s': %s",
-				q.str(), mysql_error (msock));
 		return false;
 	}
-	syslog (LOG_NOTICE, "Query <%s>", q.str());
 	return true;
 }
 
