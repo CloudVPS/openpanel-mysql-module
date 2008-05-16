@@ -33,6 +33,7 @@ bool mysqlSocket::query (const string &q)
 				q.str(), mysql_error (msock));
 		return false;
 	}
+	syslog (LOG_NOTICE, "Query <%s>", q.str());
 	return true;
 }
 
