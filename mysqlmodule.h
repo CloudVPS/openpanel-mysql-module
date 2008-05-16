@@ -140,12 +140,10 @@ public:
 	bool			 updateUserPassword (const string &username,
 										 const string &cryptedpassword);
 	
-	bool			 addUserHost (const string &dbname,
-								  const string &username,
+	bool			 addUserHost (const string &username,
 								  const string &host);
 	
-	bool			 deleteUserHost (const string &dbname,
-									 const string &username,
+	bool			 deleteUserHost (const string &username,
 									 const string &host);
 						 
 protected:
