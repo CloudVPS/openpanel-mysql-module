@@ -122,29 +122,29 @@ public:
 	static value	*permsReadWrite (void);
 	static value	*permsAdmin (void);
 
-	void			 createDatabase (const string &dbname);
-	void			 dropDatabase (const string &dbname);
+	bool			 createDatabase (const string &dbname);
+	bool			 dropDatabase (const string &dbname);
 	
-	void			 addUser (const string &dbname,
+	bool			 addUser (const string &dbname,
 							  const string &username,
 							  const string &passwd,
 							  const value &perms);
 	
-	void			 deleteUser (const string &dbname,
+	bool			 deleteUser (const string &dbname,
 								 const string &username);
 							 
-	void			 updateUser (const string &dbname,
+	bool			 updateUser (const string &dbname,
 								 const string &username,
 								 const value &perms);
 							 
-	void			 updateUserPassword (const string &username,
+	bool			 updateUserPassword (const string &username,
 										 const string &cryptedpassword);
 	
-	void			 addUserHost (const string &dbname,
+	bool			 addUserHost (const string &dbname,
 								  const string &username,
 								  const string &host);
 	
-	void			 deleteUserHost (const string &dbname,
+	bool			 deleteUserHost (const string &dbname,
 									 const string &username,
 									 const string &host);
 						 
