@@ -29,7 +29,7 @@ bool mysqlSocket::query (const string &q)
 {
 	if (mysql_query (msock, q.str()))
 	{
-		syslog (LOG_ERROR, "Query error on '%s': %s",
+		syslog (LOG_ERR, "Query error on '%s': %s",
 				q.str(), mysql_error (msock));
 		return false;
 	}
