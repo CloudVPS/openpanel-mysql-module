@@ -1,3 +1,5 @@
+#include <grace/exception.h>
+
 $exception (mysqlSocketInitException, "Error initializing mysql socket");
 $exception (mysqlConnectException, "Error connecting to mysqld");
 
