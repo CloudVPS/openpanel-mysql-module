@@ -161,7 +161,7 @@ bool mysqlControl::updateUser (const string &dbname, const string &username,
 		qry += "%s=%Q" %format (p.id(), p);
 	}
 	
-	qry += " WHERE User=%Q AND Db=%Q";
+	qry += " WHERE User=%Q AND Db=%Q" %format (username,dbname);
 	
 	if (! sock.query (qry)) return false;
 	sock.query ("FLUSH PRIVILEGES");
