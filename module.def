@@ -46,7 +46,9 @@ class MySQL:DBUser				< uuid b0e4b7cd-c122-4100-bab4-9f3c9384c241
 	
 	password password			: Password
 								< crypt extern
-								< gridwidth 20
+								< gridhide true
+								< clihide true
+								< textwidth 12
 								< regexp .*
 	
 	enum permissions			: Permission type
