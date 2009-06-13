@@ -23,7 +23,7 @@ class MySQL:Database			< uuid 190fb83f-8629-4b16-bac1-a691bc2eb079
 								< capabilities create delete
 								
 	string id					: Database name
-								< regexp ^[a-zA-Z0-9]+$
+								< regexp ^[-a-zA-Z0-9_]+$
 								< example mydatabase
 
 
@@ -40,7 +40,7 @@ class MySQL:DBUser				< uuid b0e4b7cd-c122-4100-bab4-9f3c9384c241
 								< capabilities create update delete
 	
 	string id					: Username
-								< regexp ^[a-zA-Z0-9]+$
+								< regexp ^[-a-zA-Z0-9_]+$
 								< example myfavuser
 								< gridwidth 50
 	
