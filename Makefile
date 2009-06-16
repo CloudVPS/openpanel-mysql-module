@@ -2,8 +2,11 @@ include makeinclude
 
 OBJ	= main.o mysqlcontrol.o version.o
 
-all: module.xml mysqlmodule.exe
+all: module.xml mysqlmodule.exe down_mysqldb.png
 	mkapp mysqlmodule 
+
+down_mysqldb.png: mysqldb.png
+	convert -modulate 50,100,100 mysqldb.png down_mysqldb.png
 
 module.xml: module.def
 	mkmodulexml < module.def > module.xml
