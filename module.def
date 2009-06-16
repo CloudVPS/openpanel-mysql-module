@@ -39,6 +39,7 @@ class MySQL:DBUser				< uuid b0e4b7cd-c122-4100-bab4-9f3c9384c241
 								< shortname dbuser
 								< title MySQL User
 								< description MySQL database user
+								< emptytext No users have been created for this database yet.
 								
 								< capabilities create update delete
 	
@@ -69,6 +70,7 @@ class MySQL:DBUserhost			< uuid 6a7a0412-39b1-49e1-9530-825ecc3d7fef
 								< title Access Host or IP
 								< description User host/IP match
 								< explanation dbuserhost.html
+								< emptytext This database user can only access the database from localhost (127.0.0.1).
 								
 								< capabilities create delete
 	
