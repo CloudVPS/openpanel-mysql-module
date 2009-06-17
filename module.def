@@ -19,8 +19,8 @@ class MySQL:Database			< uuid 190fb83f-8629-4b16-bac1-a691bc2eb079
 								< indexing manual
 								< uniquein class
 								< shortname mysqldb
-								< title MySQL Database
-								< description MySQL database
+								< title Database
+								< description MySQL Database
 								< icon mysqldb.png
 								
 								< capabilities create delete
