@@ -75,7 +75,7 @@ class MySQL:DBUserhost			< uuid 6a7a0412-39b1-49e1-9530-825ecc3d7fef
 								< capabilities create delete
 	
 	string id					: Hostname to match
-								< regexp ^[-a-zA-Z0-9.]+$
+								< regexp ^[-%%a-zA-Z0-9.]+$
 								< example localhost
 								< gridwidth 100
 
