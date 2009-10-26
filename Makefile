@@ -3,7 +3,7 @@ include makeinclude
 OBJ	= main.o mysqlcontrol.o version.o
 
 all: module.xml mysqlmodule.exe down_mysqldb.png
-	mkapp mysqlmodule 
+	grace mkapp mysqlmodule 
 
 down_mysqldb.png: mysqldb.png
 	convert -modulate 50,100,100 mysqldb.png down_mysqldb.png
@@ -12,7 +12,7 @@ module.xml: module.def
 	mkmodulexml < module.def > module.xml
 
 version.cpp:
-	mkversion version.cpp
+	grace mkversion version.cpp
 
 mysqlmodule.exe: $(OBJ)
 	$(LD) $(LDFLAGS) -o mysqlmodule.exe $(OBJ) $(LIBS) \
