@@ -3,18 +3,18 @@
 
 BUILD_ROOT=$(CURDIR)/debian/tmp
 install:
-trm -rf ${BUILD_ROOT}
-tmkdir -p ${BUILD_ROOT}/var/opencore/modules/MySQL.module
-tmkdir -p ${BUILD_ROOT}/etc/openpanel
-tcp -rf ./mysqlmodule.app ${BUILD_ROOT}/var/opencore/modules/MySQL.module/
-tcp *.png ${BUILD_ROOT}/var/opencore/modules/MySQL.module/
-tln -sf mysqlmodule.app/exec ${BUILD_ROOT}/var/opencore/modules/MySQL.module/action
-tcp module.xml ${BUILD_ROOT}/var/opencore/modules/MySQL.module/module.xml
-tinstall -m 755 verify ${BUILD_ROOT}/var/opencore/modules/MySQL.module/verify
+	rm -rf ${BUILD_ROOT}
+	mkdir -p ${BUILD_ROOT}/var/opencore/modules/MySQL.module
+	mkdir -p ${BUILD_ROOT}/etc/openpanel
+	cp -rf ./mysqlmodule.app ${BUILD_ROOT}/var/opencore/modules/MySQL.module/
+	cp *.png ${BUILD_ROOT}/var/opencore/modules/MySQL.module/
+	ln -sf mysqlmodule.app/exec ${BUILD_ROOT}/var/opencore/modules/MySQL.module/action
+	cp module.xml ${BUILD_ROOT}/var/opencore/modules/MySQL.module/module.xml
+	install -m 755 verify ${BUILD_ROOT}/var/opencore/modules/MySQL.module/verify
 
 build:
-t./configure
-tmake
+	./configure
+	make
 binary-indep:
 
 binary-arch binary: build install

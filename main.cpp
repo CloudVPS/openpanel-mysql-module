@@ -11,7 +11,7 @@
 // website on http://www.openpanel.com/
 // --------------------------------------------------------------------------
 
-#include <moduleapp.h>
+#include <opencore/moduleapp.h>
 #include "mysqlmodule.h"
 
 #include <grace/file.h>

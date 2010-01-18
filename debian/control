@@ -2,7 +2,7 @@ Source: openpanel-mod-mysql
 Section: misc
 Priority: optional
 Maintainer: OpenPanel/Panel6 packager <packages@panelsix.com>
-Build-Depends: debhelper (>= 5)
+Build-Depends: debhelper (>= 5), libmysqlclient15-dev, imagemagick
 Standards-Version: 3.7.2
 
 Package: openpanel-mod-mysql
