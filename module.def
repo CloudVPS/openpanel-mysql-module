@@ -1,6 +1,13 @@
+# This file is part of OpenPanel - The Open Source Control Panel
+# OpenPanel is free software: you can redistribute it and/or modify it 
+# under the terms of the GNU General Public License as published by the Free 
+# Software Foundation, using version 3 of the License.
+#
+# Please note that use of the OpenPanel trademark may be subject to additional 
+# restrictions. For more information, please visit the Legal Information 
+# section of the OpenPanel website on http://www.openpanel.com/
 # ============================================================================
 # OpenPanel MySQL.module for controlling a MySQL database.
-# Copyright (C) 2008 PanelSix V.O.F.
 # ============================================================================
 module MySQL					< uuid 5e9dac24-e59c-4074-b316-272d94ffccbe
 								< version 1.0
