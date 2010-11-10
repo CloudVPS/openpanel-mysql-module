@@ -25,7 +25,7 @@ version.cpp:
 
 mysqlmodule.exe: $(OBJ)
 	$(LD) $(LDFLAGS) -o mysqlmodule.exe $(OBJ) $(LIBS) \
-	/usr/lib/opencore/libcoremodule.a -lz -lssl
+	/usr/lib/opencore/libcoremodule.a -lz
 
 clean:
 	rm -f *.o *.exe
