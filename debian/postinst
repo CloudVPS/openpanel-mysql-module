@@ -44,14 +44,13 @@ case "$1" in
 
             # Check if the mysql server is running, if not
             # we have to start it
-            invoke-rc.d mysql restart
+            invoke-rc.d mysql start
 
             if [ ! -e /etc/openpanel/mysql.pwd ]; then
                 # exec query in mysql
                 echo "Trying to create openpanel user"
                 mysql -u debian-sys-maint --password=$DEB_SYSPW -e "$MYSQL_QRY"
-                invoke-rc.d mysql restart
-                # mysql -u root -e "$MYSQL_QRY"
+                invoke-rc.d mysql reload
 
                 if [ "$?" -ne "0" ]; then
                     echo "ERROR: Creating openpanel user in mysql database server"
@@ -59,7 +58,7 @@ case "$1" in
                 fi
 
                 # write the new password to /etc/openpanel/mysql.pwd
-                # and change the file ops so nobody except root cab read
+                # and change the file ops so nobody except root can read
                 # its contents
                 if [ ! -d /etc/openpanel ]; then
                     mkdir /etc/openpanel
