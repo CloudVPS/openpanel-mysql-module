@@ -7,6 +7,7 @@ Standards-Version: 3.7.2
 
 Package: openpanel-mod-mysql
 Architecture: any
+Pre-Depends: openpanel-core, openpanel-authd, mysql-client
 Depends: openpanel-core (>= 0.8.3), openpanel-mod-user, mysql-server, sharutils, ${shlibs:Depends}, ${misc:Depends}
 Description: OpenPanel module to manage the MySQL database
  Openpanel mysql management module
