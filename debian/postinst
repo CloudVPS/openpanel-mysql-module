@@ -30,8 +30,8 @@ set -e
 case "$1" in
     configure)
     
-        mkdir -p /var/opencore/conf/staging/MySQL
-        chown opencore:authd /var/opencore/conf/staging/MySQL
+        mkdir -p /var/openpanel/conf/staging/MySQL
+        chown openpanel-core:openpanel-authd /var/openpanel/conf/staging/MySQL
         if [ ! -e /etc/openpanel/mysql.pwd ]; then
             # Check if the mysql user has already been created
             # Get the debian sys-maint password

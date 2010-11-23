@@ -44,17 +44,17 @@ make
 %install
 BUILD_ROOT=$RPM_BUILD_ROOT
 rm -rf ${BUILD_ROOT}
-mkdir -p ${BUILD_ROOT}/var/opencore/modules/MySQL.module
+mkdir -p ${BUILD_ROOT}/var/openpanel/modules/MySQL.module
 mkdir -p ${BUILD_ROOT}/etc/openpanel
-cp -rf ./mysqlmodule.app ${BUILD_ROOT}/var/opencore/modules/MySQL.module/
-cp *.png ${BUILD_ROOT}/var/opencore/modules/MySQL.module/
-ln -sf mysqlmodule.app/exec ${BUILD_ROOT}/var/opencore/modules/MySQL.module/action
-cp module.xml ${BUILD_ROOT}/var/opencore/modules/MySQL.module/module.xml
-install -m 755 verify ${BUILD_ROOT}/var/opencore/modules/MySQL.module/verify
+cp -rf ./mysqlmodule.app ${BUILD_ROOT}/var/openpanel/modules/MySQL.module/
+cp *.png ${BUILD_ROOT}/var/openpanel/modules/MySQL.module/
+ln -sf mysqlmodule.app/exec ${BUILD_ROOT}/var/openpanel/modules/MySQL.module/action
+cp module.xml ${BUILD_ROOT}/var/openpanel/modules/MySQL.module/module.xml
+install -m 755 verify ${BUILD_ROOT}/var/openpanel/modules/MySQL.module/verify
 
 %post
-mkdir -p /var/opencore/conf/staging/MySQL
-chown opencore:authd /var/opencore/conf/staging/MySQL
+mkdir -p /var/openpanel/conf/staging/MySQL
+chown openpanel-core:openpanel-authd /var/openpanel/conf/staging/MySQL
 if [ ! -e /etc/openpanel/mysql.pwd ]; then
 
 OP_UPW=`openssl rand -base64 12`
