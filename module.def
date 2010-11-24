@@ -49,6 +49,7 @@ class MySQL:DBUser				< uuid b0e4b7cd-c122-4100-bab4-9f3c9384c241
 								< emptytext No users have been created for this database yet.
 								
 								< capabilities create update delete
+								< required id permissions
 	
 	string id					: Username
 								< regexp ^[-a-zA-Z0-9_]+$
