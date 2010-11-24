@@ -33,7 +33,7 @@ class MySQL:Database			< uuid 190fb83f-8629-4b16-bac1-a691bc2eb079
 								< capabilities create delete
 								
 	string id					: Database name
-								< regexp ^[-a-zA-Z0-9_]+$
+								< regexp ^[-a-zA-Z0-9_]{1,47}$
 								< example mydatabase
 
 
@@ -83,7 +83,7 @@ class MySQL:DBUserhost			< uuid 6a7a0412-39b1-49e1-9530-825ecc3d7fef
 								< capabilities create delete
 	
 	string id					: Hostname to match
-								< regexp ^[-%%a-zA-Z0-9.]+$
+								< regexp ^[-%%a-zA-Z0-9.]{1,16}$
 								< example localhost
 								< gridwidth 100
 								< gridlabel Match
