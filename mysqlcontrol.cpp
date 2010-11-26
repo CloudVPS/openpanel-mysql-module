@@ -98,6 +98,9 @@ bool mysqlControl::createDatabase (const string &dbname)
 
 bool mysqlControl::dropDatabase (const string &dbname)
 {
+	sock.query ("DELETE FROM mysql.user WHERE User in (SELECT User FROM "
+				"mysql.db WHERE Db=%M)" %format (dbname));
+	sock.query ("DELETE FROM mysql.db where Db=%M" %format (dbname));
 	return sock.query ("DROP DATABASE `%S`" %format (dbname));
 }
 
