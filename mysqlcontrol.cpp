@@ -102,6 +102,7 @@ bool mysqlControl::dropDatabase (const string &dbname)
 				"mysql.db WHERE Db=%M) AND User not in (SELECT User FROM "
 				"mysql.db WHERE Db!=%M)" %format (dbname,dbname));
 	sock.query ("DELETE FROM mysql.db where Db=%M" %format (dbname));
+	sock.query ("FLUSH PRIVILEGES");
 	return sock.query ("DROP DATABASE `%S`" %format (dbname));
 }
 
