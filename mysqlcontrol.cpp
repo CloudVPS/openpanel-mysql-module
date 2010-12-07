@@ -136,6 +136,7 @@ bool mysqlControl::addUser (const string &dbname, const string &username,
 		qry = "DELETE FROM mysql.user WHERE "
 			  "User=%Q and Host='localhost'" %format (username);
 		sock.query (qry);
+		sock.query ("FLUSH PRIVILEGES");
 		return false;
 	}
 	
@@ -149,6 +150,7 @@ bool mysqlControl::deleteUser (const string &dbname, const string &username)
 				" Db=%Q" %format (username, dbname));
 	
 	sock.query ("DELETE FROM mysql.user WHERE User=%Q" %format (username));
+	sock.query ("FLUSH PRIVILEGES");
 	return true;
 }
 
