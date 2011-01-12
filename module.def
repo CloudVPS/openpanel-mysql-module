@@ -12,7 +12,7 @@
 module MySQL					< uuid 5e9dac24-e59c-4074-b316-272d94ffccbe
 								< version 1.0
 								< languages en_EN
-								< apitype xml
+								< apitype grace
 								< license GPLv3
 								< author OpenPanel
 								< url http://www.openpanel.com/
