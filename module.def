@@ -35,6 +35,7 @@ class MySQL:Database			< uuid 190fb83f-8629-4b16-bac1-a691bc2eb079
 	string id					: Database name
 								< regexp ^[-a-zA-Z0-9_]{1,47}$
 								< example mydatabase
+								< explanation mysqldb.html
 
 
 # ----------------------------------------------------------------------------
