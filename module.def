@@ -29,7 +29,7 @@ class MySQL:Database			< uuid 190fb83f-8629-4b16-bac1-a691bc2eb079
 								< title Database
 								< description MySQL Database
 								< icon mysqldb.png
-								< explanation mysqldb.html
+								< emptytext No database has been created yet. To create a MySQL database, click on the '+' button in the lower left corner.
 								
 								< capabilities create delete
 								
