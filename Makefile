@@ -27,6 +27,15 @@ mysqlmodule.exe: $(OBJ)
 	$(LD) $(LDFLAGS) -o mysqlmodule.exe $(OBJ) $(LIBS) \
 	/usr/lib/openpanel-core/libcoremodule.a -lz
 
+install:
+	mkdir -p ${DESTDIR}/var/openpanel/modules/MySQL.module
+	mkdir -p ${DESTDIR}/var/openpanel/conf/staging/MySQL
+	cp -rf ./mysqlmodule.app    ${DESTDIR}/var/openpanel/modules/MySQL.module/
+	ln -sf mysqlmodule.app/exec ${DESTDIR}/var/openpanel/modules/MySQL.module/action
+	cp     module.xml          ${DESTDIR}/var/openpanel/modules/MySQL.module/module.xml
+	install -m 755 verify      ${DESTDIR}/var/openpanel/modules/MySQL.module/verify
+	cp *.html ${DESTDIR}/var/openpanel/modules/MySQL.module
+
 clean:
 	rm -f *.o *.exe
 	rm -rf mysqlmodule.app

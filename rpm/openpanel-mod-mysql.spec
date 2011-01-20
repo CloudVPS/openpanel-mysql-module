@@ -1,73 +1,60 @@
-# This file is part of OpenPanel - The Open Source Control Panel
-# OpenPanel is free software: you can redistribute it and/or modify it 
-# under the terms of the GNU General Public License as published by the Free 
-# Software Foundation, using version 3 of the License.
-#
-# Please note that use of the OpenPanel trademark may be subject to additional 
-# restrictions. For more information, please visit the Legal Information 
-# section of the OpenPanel website on http://www.openpanel.com/
+%define 	modname	MySQL
 
-%define version 0.9.4
-
-%define libpath /usr/lib
-%ifarch x86_64
-  %define libpath /usr/lib64
-%endif
-
-Summary: MySQL database module
-Name: openpanel-mod-mysql
-Version: %version
-Release: 1
-License: GPLv2
-Group: Development
-Source: http://packages.openpanel.com/archive/openpanel-mod-mysql-%{version}.tar.gz
-Patch1: openpanel-mod-mysql-00-makefile
-BuildRoot: /var/tmp/%{name}-buildroot
-Requires: openpanel-core >= 0.8.3
-Requires: openpanel-mod-user
-Requires: mysql-server
-Requires: openssl
+Name: 		openpanel-mod-mysql
+Version: 	1.0
+Release: 	1%{?dist}
+Summary:  	OpenPanel module to manage MySQL
+License: 	GPLv3
+Group: 		Applications/Internet
+Source: 	%{name}-%{version}.tar.bz2
+Requires:	openpanel-core
+Requires: 	mysql
+BuildRequires:	openpanel-core-devel
+BuildRequires:	grace-devel
+BuildRequires:	ImageMagick
+BuildRequires:  mysql-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-MySQL database module
-Openpanel mysql management module
+OpenPanel module to manage MySQL
 
 %prep
-%setup -q -n openpanel-mod-mysql-%version
-%patch1 -p0 -b .buildroot
+%setup -q -n %{modname}.module
+./configure --prefix=%{_prefix} --exec-prefix=%{_bindir} \
+            --lib-prefix=%{_libdir} --conf-prefix=%{_sysconfdir} \
+	    --include-prefix=%{_includedir}
 
 %build
-BUILD_ROOT=$RPM_BUILD_ROOT
-./configure
 make
 
 %install
-BUILD_ROOT=$RPM_BUILD_ROOT
-rm -rf ${BUILD_ROOT}
-mkdir -p ${BUILD_ROOT}/var/openpanel/modules/MySQL.module
-mkdir -p ${BUILD_ROOT}/etc/openpanel
-cp -rf ./mysqlmodule.app ${BUILD_ROOT}/var/openpanel/modules/MySQL.module/
-cp *.png ${BUILD_ROOT}/var/openpanel/modules/MySQL.module/
-ln -sf mysqlmodule.app/exec ${BUILD_ROOT}/var/openpanel/modules/MySQL.module/action
-cp module.xml ${BUILD_ROOT}/var/openpanel/modules/MySQL.module/module.xml
-install -m 755 verify ${BUILD_ROOT}/var/openpanel/modules/MySQL.module/verify
+rm -rf %{buildroot}
+%makeinstall DESTDIR=%{buildroot}
 
-%post
-mkdir -p /var/openpanel/conf/staging/MySQL
-chown openpanel-core:openpanel-authd /var/openpanel/conf/staging/MySQL
-if [ ! -e /etc/openpanel/mysql.pwd ]; then
-
-OP_UPW=`openssl rand -base64 12`
-MYSQL_QRY="GRANT ALL PRIVILEGES ON *.* TO 'openpanel'@'localhost' IDENTIFIED BY '"$OP_UPW"' WITH GRANT OPTION;"
-
-chkconfig --level 2345 mysqld on
-service mysqld restart >/dev/null 2>&1
-mysql -u root -e "$MYSQL_QRY"
-
-echo $OP_UPW > /etc/openpanel/mysql.pwd
-chmod 600 /etc/openpanel/mysql.pwd
-fi
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-/
+%dir %attr(-,openpanel-core, openpanel-authd) %{_localstatedir}/openpanel/conf/staging/%{modname}
+%attr(-,openpanel-core, openpanel-authd)%{_localstatedir}/openpanel/modules/%{modname}.module
+
+%post
+/sbin/service openpaneld condrestart /dev/null 2>&1
+
+%preun
+if [ $1 = 0 ]; then
+	service openpaneld stop >/dev/null 2>&1
+fi
+
+%postun
+if [ $1 = 0 ]; then
+	service openpaneld start >/dev/null 2>&1
+fi
+if [ "$1" = "1" ]; then
+	service openpaneld condrestart >/dev/null 2>&1
+fi
+
+%changelog
+* Wed Jan 18 2011 Igmar Palsenberg <igmar@palsenberg.com>
+- Initial packaging

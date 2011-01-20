@@ -737,6 +737,22 @@ else
 fi
 
 # ---------------------------------------------------------------------------
+# Figure out path to SSL library
+# ---------------------------------------------------------------------------
+
+saypending "looking for ssl library"
+for loc in /sw/lib /usr/lib32 /usr/lib /usr/local/lib /usr/freeware/lib $HOME/lib $HOME/.lib ../../lib; do
+  if [ -f "$loc/libssl.$DYNEXT" ]; then
+    LIBSSL="-lssl"
+  fi
+done
+if [ -z "$LIBSSL" ]; then
+  sayfail "failed"
+  exit 1
+fi
+saypass "$LIBSSL"
+
+# ---------------------------------------------------------------------------
 # Figure out path to mysql static library
 # ---------------------------------------------------------------------------
 
@@ -779,7 +795,8 @@ LDFLAGS = $LDFLAGS $LIBDL_LDFLAGS
 LDL = $LIBDL
 LDSHARED = $LDSHARED
 LGRACE = $LIBGRACE
-LIBS = $LIBGRACE $LIBPTHREAD $LIBSOCKET $LIBNSL $LIBDL $LIBCRYPT $LIBMYSQL
+LSSL = $LIBSSL
+LIBS = $LIBGRACE $LIBPTHREAD $LIBSOCKET $LIBNSL $LIBDL $LIBCRYPT $LIBMYSQL $LIBSSL
 LPTHREAD = $LIBPTHREAD
 LSOCKET = $LIBSOCKET $LIBNSL
 SHARED = $SHARED
