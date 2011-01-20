@@ -29,13 +29,13 @@ class MySQL:Database			< uuid 190fb83f-8629-4b16-bac1-a691bc2eb079
 								< title Database
 								< description MySQL Database
 								< icon mysqldb.png
+								< explanation mysqldb.html
 								
 								< capabilities create delete
 								
 	string id					: Database name
 								< regexp ^[-a-zA-Z0-9_]{1,47}$
 								< example mydatabase
-								< explanation mysqldb.html
 
 
 # ----------------------------------------------------------------------------
