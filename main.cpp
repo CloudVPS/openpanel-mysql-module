@@ -298,9 +298,11 @@ bool mysqlmodule::writeconfiguration (const value &v)
 //  =========================================================================
 bool mysqlmodule::checkdbname (const string &s)
 {
+	// http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
 	static string DBNameChars ("abcdefghijklmnopqrstuvwxyz"
 							   "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-							   "0123456789-");
+							   "0123456789-_$");
+							   
 	if(! s.validate(DBNameChars))
 	{
 		sendresult (err_command, "Invalid character in database name");
