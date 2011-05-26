@@ -319,7 +319,7 @@ bool mysqlmodule::checkhostname (const string &s)
 {
 	static string HostNameChars ("abcdefghijklmnopqrstuvwxyz"
 					 		     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-							     "0123456789-.");
+							     "0123456789-.%");
 	if(! s.validate(HostNameChars))
 	{
 		sendresult (err_command, "Invalid character in hostname");
