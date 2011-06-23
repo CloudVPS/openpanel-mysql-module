@@ -1,4 +1,4 @@
-# This file is part of OpenPanel - The Open Source Control Panel
+e This file is part of OpenPanel - The Open Source Control Panel
 # OpenPanel is free software: you can redistribute it and/or modify it 
 # under the terms of the GNU General Public License as published by the Free 
 # Software Foundation, using version 3 of the License.
@@ -6,6 +6,9 @@
 # Please note that use of the OpenPanel trademark may be subject to additional 
 # restrictions. For more information, please visit the Legal Information 
 # section of the OpenPanel website on http://www.openpanel.com/
+#
+# limits gathered from http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
+# and from the mysql.* table schema in mysql-server 5.1.41-3ubuntu12.10
 # ============================================================================
 # OpenPanel MySQL.module for controlling a MySQL database.
 # ============================================================================
@@ -34,7 +37,7 @@ class MySQL:Database			< uuid 190fb83f-8629-4b16-bac1-a691bc2eb079
 								< capabilities create delete
 								
 	string id					: Database name
-								< regexp ^[-a-zA-Z0-9_]{1,47}$
+								< regexp ^[-a-zA-Z0-9_]{1,64}$
 								< example mydatabase
 
 
@@ -53,7 +56,7 @@ class MySQL:DBUser				< uuid b0e4b7cd-c122-4100-bab4-9f3c9384c241
 								< required id permissions
 	
 	string id					: Username
-								< regexp ^[-a-zA-Z0-9_]+$
+								< regexp ^[-a-zA-Z0-9_]{1,16}$
 								< example myfavuser
 								< gridwidth 50
 	
@@ -85,7 +88,7 @@ class MySQL:DBUserhost			< uuid 6a7a0412-39b1-49e1-9530-825ecc3d7fef
 								< capabilities create delete
 	
 	string id					: Hostname to match
-								< regexp ^[-%%a-zA-Z0-9.]{1,16}$
+								< regexp ^[-%%a-zA-Z0-9.]{1,60}$
 								< example localhost
 								< gridwidth 100
 								< gridlabel Match
