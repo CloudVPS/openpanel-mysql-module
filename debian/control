@@ -2,12 +2,12 @@ Source: openpanel-mod-mysql
 Section: misc
 Priority: optional
 Maintainer: OpenPanel packager <packages@openpanel.com>
-Build-Depends: debhelper (>= 5), libmysqlclient15-dev, libgrace-dev, openpanel-dev, libz-dev, imagemagick, libssl-dev
+Build-Depends: debhelper (>= 5), libmysqlclient15-dev, libgrace-dev (>= 1.0), openpanel-dev (>= 1.1), libz-dev, imagemagick, libssl-dev
 Standards-Version: 3.7.2
 
 Package: openpanel-mod-mysql
 Architecture: any
 Pre-Depends: openpanel-core, openpanel-authd, mysql-client
-Depends: openpanel-core (>= 0.8.3), openpanel-mod-user, mysql-server, sharutils, ${shlibs:Depends}, ${misc:Depends}
+Depends: openpanel-core (>= 1.1), openpanel-mod-user (>= 1.1), mysql-server, sharutils, ${shlibs:Depends}, ${misc:Depends}
 Description: OpenPanel module to manage the MySQL database
  Openpanel mysql management module
