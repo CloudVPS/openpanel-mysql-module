@@ -16,10 +16,17 @@ $exception (mysqlConnectException, "Error connecting to mysqld");
 
 mysqlSocket::mysqlSocket (const string &user, const string &pass)
 {
+	value ini;
+	string hostname = "localhost";
+	if (fs.exists ("/etc/openpanel/mod-mysql.conf"))
+	{
+		ini.loadini ("/etc/openpanel/mod-mysql.conf");
+		hostname = ini["hostname"];
+	}
 	msock = mysql_init (NULL);
 	if (! msock) throw (mysqlSocketInitException());
 	
-	if (! mysql_real_connect (msock, "localhost", user.str(),
+	if (! mysql_real_connect (msock, hostname, user.str(),
 							  pass.str(), NULL, 3306, NULL, 0))
 	{
 		throw (mysqlConnectException());
