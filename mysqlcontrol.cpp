@@ -26,7 +26,7 @@ mysqlSocket::mysqlSocket (const string &user, const string &pass)
 	msock = mysql_init (NULL);
 	if (! msock) throw (mysqlSocketInitException());
 	
-	if (! mysql_real_connect (msock, hostname, user.str(),
+	if (! mysql_real_connect (msock, hostname.str(), user.str(),
 							  pass.str(), NULL, 3306, NULL, 0))
 	{
 		throw (mysqlConnectException());
