@@ -118,6 +118,8 @@ public:
 	static value	*permsReadWrite (void);
 	static value	*permsAdmin (void);
 
+	string			*escapeUnderscore (const string &from);
+
 	bool			 createDatabase (const string &dbname);
 	bool			 dropDatabase (const string &dbname);
 	

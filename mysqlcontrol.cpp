@@ -98,6 +98,14 @@ value *mysqlControl::permsAdmin (void)
 		   $("Lock_tables_priv","Y");
 }
 
+string *escapeUnderscore (const string &from)
+{
+	returnclass (res) retain;
+	res = from;
+	res.replace ($("_","\\_"));
+	return &res;
+}
+
 bool mysqlControl::createDatabase (const string &dbname)
 {
 	return sock.query ("CREATE DATABASE `%S`" %format (dbname));
@@ -113,9 +121,10 @@ bool mysqlControl::dropDatabase (const string &dbname)
 	return sock.query ("DROP DATABASE `%S`" %format (dbname));
 }
 
-bool mysqlControl::addUser (const string &dbname, const string &username,
+bool mysqlControl::addUser (const string &_dbname, const string &username,
 							const string &passwd, const value &perms)
 {
+	string dbname = escapeUnderscore (_dbname);
 	value P = permlist;
 	P << perms;
 	
@@ -151,8 +160,9 @@ bool mysqlControl::addUser (const string &dbname, const string &username,
 	return true;
 }
 
-bool mysqlControl::deleteUser (const string &dbname, const string &username)
+bool mysqlControl::deleteUser (const string &_dbname, const string &username)
 {
+	string dbname = escapeUnderscore (_dbname);
 	sock.query ("DELETE FROM mysql.db WHERE User=%Q AND"
 				" Db=%Q" %format (username, dbname));
 	
@@ -161,9 +171,11 @@ bool mysqlControl::deleteUser (const string &dbname, const string &username)
 	return true;
 }
 
-bool mysqlControl::updateUser (const string &dbname, const string &username,
+bool mysqlControl::updateUser (const string &_dbname, const string &username,
 							   const value &perms)
 {
+	string dbname = escapeUnderscore (_dbname);
+
 	value P = permlist;
 	P << perms;
 	
