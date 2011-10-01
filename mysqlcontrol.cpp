@@ -98,7 +98,7 @@ value *mysqlControl::permsAdmin (void)
 		   $("Lock_tables_priv","Y");
 }
 
-string *escapeUnderscore (const string &from)
+string *mysqlControl::escapeUnderscore (const string &from)
 {
 	returnclass (string) res retain;
 	res = from;
