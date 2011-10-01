@@ -14,6 +14,9 @@ $exception (mysqlConnectException, "Error connecting to mysqld");
 
 #include "mysqlmodule.h"
 
+// ==========================================================================
+// CONSTRUCTOR mysqlSocket
+// ==========================================================================
 mysqlSocket::mysqlSocket (const string &user, const string &pass)
 {
 	value ini;
@@ -33,11 +36,17 @@ mysqlSocket::mysqlSocket (const string &user, const string &pass)
 	}
 }
 	
+// ==========================================================================
+// DESTRUCTOR mysqlSocket
+// ==========================================================================
 mysqlSocket::~mysqlSocket (void)
 {
 	if (msock) mysql_close (msock);
 }
 	
+// ==========================================================================
+// METHOD mysqlSocket::query
+// ==========================================================================
 bool mysqlSocket::query (const string &q)
 {
 	if (mysql_query (msock, q.str()))
@@ -47,6 +56,9 @@ bool mysqlSocket::query (const string &q)
 	return true;
 }
 
+// ==========================================================================
+// CONSTRUCTOR mysqlControl
+// ==========================================================================
 mysqlControl::mysqlControl (const string &_user, const string &_pass)
 	: user (_user), pass (_pass), sock (user, pass)
 {
@@ -65,10 +77,16 @@ mysqlControl::mysqlControl (const string &_user, const string &_pass)
 		$("Lock_tables_priv","N");
 }
 
+// ==========================================================================
+// DESTRUCTOR mysqlControl
+// ==========================================================================
 mysqlControl::~mysqlControl (void)
 {
 }
 
+// ==========================================================================
+// METHOD mysqlControl::permsRead
+// ==========================================================================
 value *mysqlControl::permsRead (void)
 {
 	return $("Select_priv","Y");
@@ -82,6 +100,9 @@ value *mysqlControl::permsReadWrite (void)
 		   $("Delete_priv","Y");
 }
 
+// ==========================================================================
+// METHOD mysqlControl::permsAdmin
+// ==========================================================================
 value *mysqlControl::permsAdmin (void)
 {
 	return $("Select_priv","Y") ->
@@ -98,6 +119,9 @@ value *mysqlControl::permsAdmin (void)
 		   $("Lock_tables_priv","Y");
 }
 
+// ==========================================================================
+// METHOD mysqlControl::escapeUnderscore
+// ==========================================================================
 string *mysqlControl::escapeUnderscore (const string &from)
 {
 	returnclass (string) res retain;
@@ -106,11 +130,17 @@ string *mysqlControl::escapeUnderscore (const string &from)
 	return &res;
 }
 
+// ==========================================================================
+// METHOD mysqlControl::createDatabase
+// ==========================================================================
 bool mysqlControl::createDatabase (const string &dbname)
 {
 	return sock.query ("CREATE DATABASE `%S`" %format (dbname));
 }
 
+// ==========================================================================
+// METHOD mysqlControl::dropDatabase
+// ==========================================================================
 bool mysqlControl::dropDatabase (const string &dbname)
 {
 	sock.query ("DELETE FROM mysql.user WHERE User in (SELECT User FROM "
@@ -121,6 +151,9 @@ bool mysqlControl::dropDatabase (const string &dbname)
 	return sock.query ("DROP DATABASE `%S`" %format (dbname));
 }
 
+// ==========================================================================
+// METHOD mysqlControl::addUser
+// ==========================================================================
 bool mysqlControl::addUser (const string &_dbname, const string &username,
 							const string &passwd, const value &perms)
 {
@@ -160,6 +193,9 @@ bool mysqlControl::addUser (const string &_dbname, const string &username,
 	return true;
 }
 
+// ==========================================================================
+// METHOD mysqlControl::deleteUser
+// ==========================================================================
 bool mysqlControl::deleteUser (const string &_dbname, const string &username)
 {
 	string dbname = escapeUnderscore (_dbname);
@@ -171,6 +207,9 @@ bool mysqlControl::deleteUser (const string &_dbname, const string &username)
 	return true;
 }
 
+// ==========================================================================
+// METHOD mysqlControl::updateUser
+// ==========================================================================
 bool mysqlControl::updateUser (const string &_dbname, const string &username,
 							   const value &perms)
 {
@@ -197,6 +236,9 @@ bool mysqlControl::updateUser (const string &_dbname, const string &username,
 	return true;
 }
 
+// ==========================================================================
+// METHOD mysqlControl::updateUserPassword
+// ==========================================================================
 bool mysqlControl::updateUserPassword (const string &username,
 									   const string &cryptedpasswd)
 {
@@ -208,6 +250,9 @@ bool mysqlControl::updateUserPassword (const string &username,
 	return true;
 }
 
+// ==========================================================================
+// METHOD mysqlControl::addUserHost
+// ==========================================================================
 bool mysqlControl::addUserHost (const string &username, const string &host)
 {
 	if (! sock.query ("INSERT INTO mysql.user(Host,User,Password) "
@@ -222,6 +267,9 @@ bool mysqlControl::addUserHost (const string &username, const string &host)
 	return true;
 }
 
+// ==========================================================================
+// METHOD mysqlControl::deleteUserHost
+// ==========================================================================
 bool mysqlControl::deleteUserHost (const string &username, const string &host)
 {
 	if (! sock.query ("DELETE FROM mysql.user WHERE User=%Q AND "
