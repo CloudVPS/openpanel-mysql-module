@@ -100,7 +100,7 @@ value *mysqlControl::permsAdmin (void)
 
 string *escapeUnderscore (const string &from)
 {
-	returnclass (res) retain;
+	returnclass (string) res retain;
 	res = from;
 	res.replace ($("_","\\_"));
 	return &res;
