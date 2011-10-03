@@ -165,7 +165,7 @@ bool mysqlmodule::writeconfiguration (const value &v)
 	string dbid = v["MySQL:Database"]["metaid"];
 	
 	if (! dbid.validate ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-						 "0123456789-"))
+						 "0123456789-_"))
 	{
 		string error = "Invalid characters in database name";
 		sendresult (err_module, error);
